@@ -1,59 +1,52 @@
+const mongoose = require("mongoose");
 const Complaint = require("../models/complaint");
 const apiResponse = require("../helpers/apiResponse");
-const setParams = require("../helpers/utility");
+const { buildComplaintFilter } = require("../utils/complaint.filter");
 
-exports.chartData = [
-  async function (req, res) {
-    try {
-      var filterData = req.query;
+exports.buildComplaintFilter = (query, userId, role) => {
+  const filter = {};
 
-      var user_id = req.route.path.includes("owner") ? req.params.id : "";
-      await setFilterQuery(req.query, user_id).then((filterString) => {
-        queryParams = setParams.setSortSkipParams(filterData);
+  if (userId && role === "owner") {
+    filter.raisedby = new mongoose.Types.ObjectId(userId);
+  }
 
-        query.exec(function (err, complaints) {
-          if (err) throw new Error(err);
-
-          if (complaints.length > 0) {
-            Complaint.find(filterString)
-              .countDocuments()
-              .then((count) => {
-                return apiResponse.successResponseWithData(count);
-              });
-          } else {
-            return apiResponse.successResponseWithData(res, []);
-          }
-        });
-      });
-    } catch (err) {
-      return apiResponse.ErrorResponse(res, err);
+  if (query.from_date || query.to_date) {
+    filter.createdAt = {};
+    if (query.from_date) {
+      filter.createdAt.$gte = new Date(query.from_date);
     }
-  },
-
-  async function (req, res) {
-    try {
-      var filterData = req.query;
-
-      var user_id = req.route.path.includes("admin") ? req.params.id : "";
-      await setFilterQuery(req.query, user_id).then((filterString) => {
-        queryParams = setParams.setSortSkipParams(filterData);
-
-        query.exec(function (err, complaints) {
-          if (err) throw new Error(err);
-
-          if (complaints.length > 0) {
-            Complaint.find(filterString)
-              .countDocuments()
-              .then((count) => {
-                return apiResponse.successResponseWithData(count);
-              });
-          } else {
-            return apiResponse.successResponseWithData(res, []);
-          }
-        });
-      });
-    } catch (err) {
-      return apiResponse.ErrorResponse(res, err);
+    if (query.to_date) {
+      filter.createdAt.$lte = new Date(query.to_date);
     }
-  },
-];
+  }
+
+  if (query.status) {
+    filter.status = query.status;
+  }
+
+  return filter;
+};
+
+/* -------------------------------------------------------------------------- */
+/*                            COMPLAINT CHART DATA                             */
+/* -------------------------------------------------------------------------- */
+exports.getComplaintChartData = async (req, res) => {
+  try {
+    const isOwner = req.route.path.includes("owner");
+    const isAdmin = req.route.path.includes("admin");
+
+    const userId = isOwner || isAdmin ? req.params.id : null;
+    const role = isOwner ? "owner" : "admin";
+
+    const filter = buildComplaintFilter(req.query, userId, role);
+
+    const count = await Complaint.countDocuments(filter);
+
+    return apiResponse.successResponseWithData(res, {
+      totalComplaints: count,
+      filter,
+    });
+  } catch (error) {
+    return apiResponse.ErrorResponse(res, error);
+  }
+};
