@@ -24,8 +24,12 @@ const buildComplaintFilter = async (query, ownerId) => {
   // Date filter
   if (query.from_date || query.to_date) {
     filter.createdAt = {};
-    if (query.from_date) {filter.createdAt.$gte = new Date(query.from_date);}
-    if (query.to_date) {filter.createdAt.$lte = new Date(query.to_date);}
+    if (query.from_date) {
+      filter.createdAt.$gte = new Date(query.from_date);
+    }
+    if (query.to_date) {
+      filter.createdAt.$lte = new Date(query.to_date);
+    }
   }
 
   // Property search

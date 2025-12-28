@@ -9,7 +9,6 @@
 
 2.  [Getting
     Started](#getting-started)
-
     1.  [Prerequisites](#Prerequisites)
 
     2.  [Installation](#installation)

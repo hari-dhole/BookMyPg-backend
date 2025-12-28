@@ -13,7 +13,7 @@ exports.visitTemplate = function (data) {
       data.totime,
       "</i>.<br />Please visit your <i><a href=",
       `${process.env.S3_DEPLOYMENT_LINK_DEV}`,
-      " style=\"color: #ffffff\">BookMyPG</a></i> account for more details",
+      ' style="color: #ffffff">BookMyPG</a></i> account for more details',
     ),
   };
   return emailReplacements;
@@ -33,7 +33,7 @@ exports.userratingTemplate = function (data) {
       data.date,
       "</i>.<br />Please visit your <i><a href=",
       `${process.env.S3_DEPLOYMENT_LINK_DEV}`,
-      " style=\"color: #ffffff\">BookMyPG</a></i> account for more details",
+      ' style="color: #ffffff">BookMyPG</a></i> account for more details',
     ),
   };
   return emailReplacements;
@@ -56,7 +56,7 @@ exports.propertyratingTemplate = function (data) {
       data.date,
       "</i>.<br />Please visit your <i><a href=",
       `${process.env.S3_DEPLOYMENT_LINK_DEV}`,
-      " style=\"color: #ffffff\">BookMyPG</a></i> account for more details",
+      ' style="color: #ffffff">BookMyPG</a></i> account for more details',
     ),
   };
   return emailReplacements;
@@ -79,7 +79,7 @@ exports.queryTemplate = function (data) {
       data.date,
       "</i>.<br />Please visit your <i><a href=",
       `${process.env.S3_DEPLOYMENT_LINK_DEV}`,
-      " style=\"color: #ffffff\">BookMyPG</a></i> account for more details",
+      ' style="color: #ffffff">BookMyPG</a></i> account for more details',
     ),
   };
   return emailReplacements;
@@ -100,7 +100,7 @@ exports.paymentTemplate = function (data) {
       data.date,
       "</i>.<br />Please visit your <i><a href=",
       `${process.env.S3_DEPLOYMENT_LINK_DEV}`,
-      " style=\"color: #ffffff\">BookMyPG</a></i> account for more details",
+      ' style="color: #ffffff">BookMyPG</a></i> account for more details',
     ),
   };
   return emailReplacements;
