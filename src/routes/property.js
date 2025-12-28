@@ -14,6 +14,8 @@ const {
   updatePropertyValidator,
   listPropertyValidator,
 } = require("../validators/propertyValidator");
+const auth = require("../middlewares/auth");
+const { ROLE } = require("../../constants");
 
 /**
  * PUBLIC ROUTE (No auth)
