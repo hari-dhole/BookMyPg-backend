@@ -114,18 +114,10 @@ async function getReviewAnalysis(propertyId) {
 /* -------------------------------------------------------------------------- */
 exports.getAllProperties = async (req, res) => {
   try {
-    const {
-      page = 1,
-      limit = 10,
-      sortBy = "createdAt",
-      order = "desc",
-    } = req.query;
+    const { page, limit, skip, sort, sortMeta } = getPagination(req.query);
 
     const userId = req.route.path.includes("owner") ? req.params.id : null;
     const filter = await buildPropertyFilter(req.query, userId);
-
-    const skip = (page - 1) * limit;
-    const sort = { [sortBy]: order === "asc" ? 1 : -1 };
 
     const [properties, total] = await Promise.all([
       Property.find(filter)
@@ -139,14 +131,27 @@ exports.getAllProperties = async (req, res) => {
       Property.countDocuments(filter),
     ]);
 
-    const response = await Promise.all(
+    const propertiesRes = await Promise.all(
       properties.map(async (property) => ({
         propertydata: property,
         reviewdata: await getReviewAnalysis(property._id),
       }))
     );
 
-    return apiResponse.successResponseWithData(res, response, total);
+    return apiResponse.successResponseWithData(
+      res,
+      {
+        data: propertiesRes,
+        pagination: {
+          total,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit),
+        },
+        sort: sortMeta,
+      },
+      total
+    );
   } catch (error) {
     return apiResponse.ErrorResponse(res, error);
   }

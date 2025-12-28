@@ -14,7 +14,7 @@ exports.getAllUsers = async (req, res) => {
     const ownerId = req.route.path.includes("owner") ? req.params.id : null;
 
     const filter = await buildUserFilter(req.query, ownerId);
-    const { skip, limit, sort } = getPagination(req.query);
+    const { page, skip, limit, sort, sortMeta } = getPagination(req.query);
 
     const [users, total] = await Promise.all([
       User.find(filter)
@@ -25,7 +25,20 @@ exports.getAllUsers = async (req, res) => {
       User.countDocuments(filter),
     ]);
 
-    return apiResponse.successResponseWithData(res, users, total);
+    return apiResponse.successResponseWithData(
+      res,
+      {
+        data: users,
+        pagination: {
+          total,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit),
+        },
+        sort: sortMeta,
+      },
+      total
+    );
   } catch (error) {
     return apiResponse.ErrorResponse(res, error);
   }

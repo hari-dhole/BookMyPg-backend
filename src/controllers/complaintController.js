@@ -3,6 +3,7 @@ const Property = require("../models/property");
 const apiResponse = require("../helpers/apiResponse");
 const mongoose = require("mongoose");
 const constants = require("../../constants");
+const { getPagination } = require("../utils/pagination");
 
 /**
  * Build complaint filter
@@ -52,25 +53,14 @@ exports.getComplaints = async (req, res) => {
       return apiResponse.validationErrorWithData(res, "Invalid owner ID");
     }
 
-    // Pagination
-    const page = Math.max(Number(req.query.page) || 1, 1);
-    const limit = Math.min(Number(req.query.limit) || 10, 100);
-    const skip = (page - 1) * limit;
-
-    // Sorting
-    const allowedSortFields = ["createdAt", "status"];
-    const sortBy = allowedSortFields.includes(req.query.sortBy)
-      ? req.query.sortBy
-      : "createdAt";
-    const sortOrder = req.query.sortOrder === "asc" ? 1 : -1;
-
+    const { page, limit, skip, sort, sortMeta } = getPagination(req.query);
     const filter = await buildComplaintFilter(req.query, ownerId);
 
     const [complaints, total] = await Promise.all([
       Complaint.find(filter)
         .populate("property", constants.POPULATE_PROPERTY_FIELDS)
         .populate("raisedby", constants.POPULATE_USER_FIELDS)
-        .sort({ [sortBy]: sortOrder })
+        .sort(sort)
         .skip(skip)
         .limit(limit)
         .lean(),
@@ -85,6 +75,7 @@ exports.getComplaints = async (req, res) => {
         limit,
         totalPages: Math.ceil(total / limit),
       },
+      sort: sortMeta,
     });
   } catch (error) {
     return apiResponse.ErrorResponse(res, error);

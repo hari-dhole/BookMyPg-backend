@@ -1,6 +1,7 @@
 const Amenity = require("../models/amenity");
 const apiResponse = require("../helpers/apiResponse");
 const mongoose = require("mongoose");
+const { getPagination } = require("../utils/pagination");
 
 /**
  * GET /amenities
@@ -8,19 +9,7 @@ const mongoose = require("mongoose");
  */
 exports.getAllAmenities = async (req, res) => {
   try {
-    const page = Math.max(Number(req.query.page) || 1, 1);
-    const limit = Math.min(Number(req.query.limit) || 10, 100);
-    const skip = (page - 1) * limit;
-
-    const search = req.query.search?.trim();
-
-    // Safe sorting
-    const allowedSortFields = ["name", "createdAt", "updatedAt"];
-    const sortBy = allowedSortFields.includes(req.query.sortBy)
-      ? req.query.sortBy
-      : "createdAt";
-
-    const sortOrder = req.query.sortOrder === "asc" ? 1 : -1;
+    const { page, limit, skip, sort, sortMeta } = getPagination(req.query);
 
     // Filters
     const filter = {};
@@ -29,11 +18,7 @@ exports.getAllAmenities = async (req, res) => {
     }
 
     const [amenities, total] = await Promise.all([
-      Amenity.find(filter)
-        .sort({ [sortBy]: sortOrder })
-        .skip(skip)
-        .limit(limit)
-        .lean(),
+      Amenity.find(filter).sort(sort).skip(skip).limit(limit).lean(),
       Amenity.countDocuments(filter),
     ]);
 
@@ -45,10 +30,7 @@ exports.getAllAmenities = async (req, res) => {
         limit,
         totalPages: Math.ceil(total / limit),
       },
-      sort: {
-        sortBy,
-        sortOrder: sortOrder === 1 ? "asc" : "desc",
-      },
+      sort: sortMeta,
     });
   } catch (error) {
     return apiResponse.ErrorResponse(res, error);

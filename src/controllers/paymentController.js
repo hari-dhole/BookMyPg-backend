@@ -4,6 +4,7 @@ const templateText = require("../helpers/templateText");
 const mailer = require("../helpers/mailer");
 const constants = require("../../constants");
 const { buildPaymentFilter } = require("../services/paymentService");
+const { getPagination } = require("../utils/pagination");
 
 exports.createPayment = async (req, res) => {
   try {
@@ -20,15 +21,7 @@ exports.createPayment = async (req, res) => {
 
 exports.getAllPayments = async (req, res) => {
   try {
-    const {
-      page = 1,
-      limit = 10,
-      sortBy = "createdAt",
-      order = "desc",
-    } = req.query;
-
-    const skip = (page - 1) * limit;
-    const sort = { [sortBy]: order === "asc" ? 1 : -1 };
+    const { page, limit, skip, sort, sortMeta } = getPagination(req.query);
 
     const filter = await buildPaymentFilter(req.query, req.params.id);
 
@@ -42,7 +35,20 @@ exports.getAllPayments = async (req, res) => {
       Payment.countDocuments(filter),
     ]);
 
-    return apiResponse.successResponseWithData(res, payments, total);
+    return apiResponse.successResponseWithData(
+      res,
+      {
+        data: payments,
+        pagination: {
+          total,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit),
+        },
+        sort: sortMeta,
+      },
+      total
+    );
   } catch (error) {
     return apiResponse.ErrorResponse(res, error);
   }
