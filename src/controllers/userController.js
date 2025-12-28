@@ -132,3 +132,19 @@ exports.toggleUserStatus = async (req, res) => {
     return apiResponse.ErrorResponse(res, error);
   }
 };
+
+/* -------------------------------------------------------------------------- */
+/*                              USER DELETE                                   */
+/* -------------------------------------------------------------------------- */
+exports.deleteUserById = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return apiResponse.validationErrorWithData(res, "Invalid User ID");
+  }
+
+  try {
+    const user = await User.deleteOne({ id: req.params.id });
+    return apiResponse.successResponseWithData(res, user);
+  } catch (error) {
+    return apiResponse.ErrorResponse(res, error);
+  }
+};

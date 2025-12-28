@@ -15,26 +15,11 @@ const {
   listPropertyValidator,
 } = require("../validators/propertyValidator");
 
-router.get("/properties", listPropertyValidator, validate, getAllProperties);
-
-router.get(
-  "/owner/:id/properties",
-  listPropertyValidator,
-  validate,
-  getAllProperties
-);
-
-router.get("/properties/:id", getPropertyById);
-
-router.post("/properties", createPropertyValidator, validate, createProperty);
-
-router.put(
-  "/properties/:id",
-  updatePropertyValidator,
-  validate,
-  updatePropertyById
-);
-
-router.delete("/properties/:id", deletePropertyById);
+router.get("/", listPropertyValidator, validate, getAllProperties);
+router.get("/owner/:id", listPropertyValidator, validate, getAllProperties);
+router.get("/:id", getPropertyById);
+router.post("/", createPropertyValidator, validate, createProperty);
+router.put("/:id", updatePropertyValidator, validate, updatePropertyById);
+router.delete("/:id", deletePropertyById);
 
 module.exports = router;

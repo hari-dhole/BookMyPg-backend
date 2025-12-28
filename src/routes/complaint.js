@@ -13,12 +13,8 @@ const {
 } = require("../validators/complaintValidator");
 const validate = require("../middlewares/validate");
 
-router.get("/complaints/owner/:id", getComplaints);
-router.get("/complaints/:id", getComplaintById);
-router.post("/complaints", createComplaintValidator, validate, createComplaint);
-router.put(
-  "/complaints/:id",
-  updateComplaintValidator,
-  validate,
-  updateComplaintStatus
-);
+router.get("/", createComplaintValidator, validate, getComplaints);
+router.get("/owner/:id", getComplaints);
+router.get("/:id", getComplaintById);
+router.post("/", createComplaintValidator, validate, createComplaint);
+router.put("/:id", updateComplaintValidator, validate, updateComplaintStatus);

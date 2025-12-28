@@ -8,8 +8,8 @@ const {
 const { createPaymentValidator } = require("../validators/paymentValidator");
 const validate = require("../middlewares/validate");
 
-router.post("/payments", createPaymentValidator, validate, createPayment);
+router.post("/", createPaymentValidator, validate, createPayment);
 
-router.get("/payments/:id", getAllPayments);
+router.get("/tenant/:id", getAllPayments);
 
 module.exports = router;

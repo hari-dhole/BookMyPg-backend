@@ -16,16 +16,17 @@ const {
   emailValidator,
 } = require("../validators/userValidator");
 
-router.get("/users", getAllUsers);
-router.get("/owners/:id/users", getAllUsers);
+router.get("/", getAllUsers);
+router.get("/owners/:id", getAllUsers);
 
-router.get("/users/:id", userIdValidator, validate, getUserById);
-router.get("/users/email/:email", emailValidator, validate, getUserByEmail);
+router.get("/:id", userIdValidator, validate, getUserById);
+router.get("/users/:email", emailValidator, validate, getUserByEmail);
 
-router.post("/users", createUserValidator, validate, createUser);
+router.post("/", createUserValidator, validate, createUser);
 
-router.put("/users/:id", userIdValidator, validate, updateUser);
+router.put("/:id", userIdValidator, validate, updateUser);
 
-router.patch("/users/:id/toggle", userIdValidator, validate, toggleUserStatus);
+router.patch("/:id", userIdValidator, validate, toggleUserStatus);
+router.delete("/:id", deleteUserById);
 
 module.exports = router;

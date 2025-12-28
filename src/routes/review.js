@@ -12,15 +12,15 @@ const {
   reviewByPropertyValidator,
 } = require("../validators/reviewValidator");
 
-router.get("/reviews", getAllReviews);
+router.get("/", getAllReviews);
 
 router.get(
-  "/properties/:id/reviews",
+  "/property/:id",
   reviewByPropertyValidator,
   validate,
   getReviewByPropertyId
 );
 
-router.post("/reviews", createReviewValidator, validate, createReview);
+router.post("/", createReviewValidator, validate, createReview);
 
 module.exports = router;
