@@ -2,7 +2,7 @@ const Payment = require("../models/payment");
 const apiResponse = require("../helpers/apiResponse");
 const templateText = require("../helpers/templateText");
 const mailer = require("../helpers/mailer");
-const constants = require("../constants");
+const constants = require("../../constants");
 const { buildPaymentFilter } = require("../services/paymentService");
 
 exports.createPayment = async (req, res) => {

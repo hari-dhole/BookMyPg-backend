@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 const apiResponse = require("../helpers/apiResponse");
-const constants = require("../constants");
+const constants = require("../../constants");
 const { buildUserFilter, getPagination } = require("../utils/queryHelper");
 
 /* -------------------------------------------------------------------------- */

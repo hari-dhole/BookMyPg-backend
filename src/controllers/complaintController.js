@@ -2,7 +2,7 @@ const Complaint = require("../models/complaint");
 const Property = require("../models/property");
 const apiResponse = require("../helpers/apiResponse");
 const mongoose = require("mongoose");
-const constants = require("../constants");
+const constants = require("../../constants");
 
 /**
  * Build complaint filter

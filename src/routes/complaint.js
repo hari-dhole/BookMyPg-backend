@@ -1,4 +1,6 @@
 var express = require("express");
+var router = express.Router();
+
 var {
   createComplaint,
   getComplaintById,
@@ -9,9 +11,7 @@ const {
   updateComplaintValidator,
   createComplaintValidator,
 } = require("../validators/complaintValidator");
-const { validate } = require("../middlewares/validate");
-
-var router = express.router();
+const validate = require("../middlewares/validate");
 
 router.get("/complaints/owner/:id", getComplaints);
 router.get("/complaints/:id", getComplaintById);

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Review = require("../models/review");
 const apiResponse = require("../helpers/apiResponse");
-const constants = require("../constants");
+const constants = require("../../constants");
 
 const ObjectId = mongoose.Types.ObjectId;
 

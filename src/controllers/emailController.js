@@ -1,7 +1,7 @@
 const apiResponse = require("../helpers/apiResponse");
 const templateText = require("../helpers/templateText");
 const mailer = require("../helpers/mailer");
-const constants = require("../constants");
+const constants = require("../../constants");
 
 /**
  * POST /email/send

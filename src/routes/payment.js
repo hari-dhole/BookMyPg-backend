@@ -10,6 +10,6 @@ const validate = require("../middlewares/validate");
 
 router.post("/payments", createPaymentValidator, validate, createPayment);
 
-router.get("/payments/:id?", getAllPayments);
+router.get("/payments/:id", getAllPayments);
 
 module.exports = router;
