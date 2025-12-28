@@ -47,7 +47,7 @@ exports.getAllPayments = async (req, res) => {
         },
         sort: sortMeta,
       },
-      total
+      total,
     );
   } catch (error) {
     return apiResponse.ErrorResponse(res, error);

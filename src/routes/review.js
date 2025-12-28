@@ -18,7 +18,7 @@ router.get(
   "/property/:id",
   reviewByPropertyValidator,
   validate,
-  getReviewByPropertyId
+  getReviewByPropertyId,
 );
 
 router.post("/", createReviewValidator, validate, createReview);

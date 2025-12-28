@@ -44,7 +44,7 @@ async function buildPropertyFilter(query, userId) {
       filter.name = { $regex: query.search, $options: "i" };
     } else {
       const location = await Location.findOne({ name: query.search });
-      if (location) filter.location = location._id;
+      if (location) {filter.location = location._id;}
     }
   }
 
@@ -69,10 +69,10 @@ async function buildPropertyFilter(query, userId) {
 async function getReviewAnalysis(propertyId) {
   const reviews = await Review.find({ property: propertyId }).populate(
     "reviewedby",
-    constants.POPULATE_USER_FIELDS
+    constants.POPULATE_USER_FIELDS,
   );
 
-  if (!reviews.length) return {};
+  if (!reviews.length) {return {};}
 
   const total = reviews.length;
 
@@ -135,7 +135,7 @@ exports.getAllProperties = async (req, res) => {
       properties.map(async (property) => ({
         propertydata: property,
         reviewdata: await getReviewAnalysis(property._id),
-      }))
+      })),
     );
 
     return apiResponse.successResponseWithData(
@@ -150,7 +150,7 @@ exports.getAllProperties = async (req, res) => {
         },
         sort: sortMeta,
       },
-      total
+      total,
     );
   } catch (error) {
     return apiResponse.ErrorResponse(res, error);
@@ -172,7 +172,7 @@ exports.getPropertyById = async (req, res) => {
       .populate("owner", constants.POPULATE_USER_FIELDS)
       .populate("numreviews");
 
-    if (!property) return apiResponse.notFoundResponse(res);
+    if (!property) {return apiResponse.notFoundResponse(res);}
 
     const reviewdata = await getReviewAnalysis(property._id);
 
@@ -218,7 +218,7 @@ exports.deletePropertyById = async (req, res) => {
 
   try {
     const property = await Property.findById(req.params.id);
-    if (!property) return apiResponse.notFoundResponse(res);
+    if (!property) {return apiResponse.notFoundResponse(res);}
 
     property.isactive = !property.isactive;
     await property.save();
@@ -242,7 +242,7 @@ exports.updatePropertyById = async (req, res) => {
       new: true,
     });
 
-    if (!property) return apiResponse.notFoundResponse(res);
+    if (!property) {return apiResponse.notFoundResponse(res);}
 
     return apiResponse.successResponseWithData(res, property);
   } catch (error) {

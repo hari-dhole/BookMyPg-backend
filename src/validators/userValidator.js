@@ -8,7 +8,7 @@ exports.createUserValidator = [
     .isEmail()
     .custom(async (email) => {
       const exists = await User.findOne({ email });
-      if (exists) throw new Error("Email already in use");
+      if (exists) {throw new Error("Email already in use");}
     }),
 ];
 

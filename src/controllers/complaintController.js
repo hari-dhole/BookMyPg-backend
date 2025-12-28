@@ -15,7 +15,7 @@ const buildComplaintFilter = async (query, ownerId) => {
   if (ownerId) {
     const properties = await Property.find(
       { owner: ownerId },
-      { _id: 1 }
+      { _id: 1 },
     ).lean();
 
     filter.property = { $in: properties.map((p) => p._id) };
@@ -24,15 +24,15 @@ const buildComplaintFilter = async (query, ownerId) => {
   // Date filter
   if (query.from_date || query.to_date) {
     filter.createdAt = {};
-    if (query.from_date) filter.createdAt.$gte = new Date(query.from_date);
-    if (query.to_date) filter.createdAt.$lte = new Date(query.to_date);
+    if (query.from_date) {filter.createdAt.$gte = new Date(query.from_date);}
+    if (query.to_date) {filter.createdAt.$lte = new Date(query.to_date);}
   }
 
   // Property search
   if (query.search) {
     const properties = await Property.find(
       { name: { $regex: query.search, $options: "i" } },
-      { _id: 1 }
+      { _id: 1 },
     ).lean();
 
     filter.property = { $in: properties.map((p) => p._id) };
@@ -139,7 +139,7 @@ exports.updateComplaintStatus = async (req, res) => {
     const complaint = await Complaint.findByIdAndUpdate(
       req.params.id,
       { status: req.body.status },
-      { new: true }
+      { new: true },
     );
 
     if (!complaint) {

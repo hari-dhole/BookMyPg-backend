@@ -19,8 +19,8 @@ async function buildUserFilter(query, ownerId = null) {
 
   if (query.from_date || query.to_date) {
     const dateFilter = {};
-    if (query.from_date) dateFilter.$gte = new Date(query.from_date);
-    if (query.to_date) dateFilter.$lte = new Date(query.to_date);
+    if (query.from_date) {dateFilter.$gte = new Date(query.from_date);}
+    if (query.to_date) {dateFilter.$lte = new Date(query.to_date);}
 
     filter[ownerId ? "onboardedAt" : "createdAt"] = dateFilter;
   }
@@ -69,7 +69,7 @@ exports.getAllUsers = async (req, res) => {
         },
         sort: sortMeta,
       },
-      total
+      total,
     );
   } catch (error) {
     return apiResponse.ErrorResponse(res, error);
@@ -87,7 +87,7 @@ exports.getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).populate(
       "property",
-      constants.POPULATE_PROPERTY_FIELDS
+      constants.POPULATE_PROPERTY_FIELDS,
     );
 
     return user
@@ -105,14 +105,14 @@ exports.getUserByEmail = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.params.email }).populate(
       "property",
-      constants.POPULATE_PROPERTY_FIELDS
+      constants.POPULATE_PROPERTY_FIELDS,
     );
 
-    if (!user) return apiResponse.notFoundResponse(res);
+    if (!user) {return apiResponse.notFoundResponse(res);}
 
     const token = jwt.sign(
       { _id: user._id, email: user.email, role: user.role },
-      process.env.JWT_SECRET_KEY
+      process.env.JWT_SECRET_KEY,
     );
 
     return apiResponse.successResponseWithData(res, {
@@ -167,7 +167,7 @@ exports.toggleUserStatus = async (req, res) => {
 
   try {
     const user = await User.findById(req.params.id);
-    if (!user) return apiResponse.notFoundResponse(res);
+    if (!user) {return apiResponse.notFoundResponse(res);}
 
     user.isactive = !user.isactive;
     await user.save();

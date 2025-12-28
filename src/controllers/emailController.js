@@ -16,7 +16,7 @@ exports.sendEmail = async (req, res) => {
     if (!templateKey || !templateText[templateKey]) {
       return apiResponse.validationErrorWithData(
         res,
-        "Invalid email template type"
+        "Invalid email template type",
       );
     }
 
