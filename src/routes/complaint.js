@@ -18,3 +18,5 @@ router.get("/owner/:id", getComplaints);
 router.get("/:id", getComplaintById);
 router.post("/", createComplaintValidator, validate, createComplaint);
 router.put("/:id", updateComplaintValidator, validate, updateComplaintStatus);
+
+module.exports = router;

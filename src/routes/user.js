@@ -8,6 +8,7 @@ const {
   getUserById,
   toggleUserStatus,
   updateUser,
+  deleteUserById,
 } = require("../controllers/userController");
 const validate = require("../middlewares/validate");
 const {
