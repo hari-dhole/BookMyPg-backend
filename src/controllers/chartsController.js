@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 const Complaint = require("../models/complaint");
 const apiResponse = require("../helpers/apiResponse");
-const { buildComplaintFilter } = require("../utils/complaint.filter");
 
-exports.buildComplaintFilter = (query, userId, role) => {
+function buildComplaintFilter(query, userId, role) {
   const filter = {};
 
   if (userId && role === "owner") {
@@ -25,7 +24,7 @@ exports.buildComplaintFilter = (query, userId, role) => {
   }
 
   return filter;
-};
+}
 
 /* -------------------------------------------------------------------------- */
 /*                            COMPLAINT CHART DATA                             */
