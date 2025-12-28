@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const { body, validationResult } = require("express-validator");
 
-const Property = require("../models/propertyModel");
-const Location = require("../models/locationModel");
-const Review = require("../models/reviewModel");
+const Property = require("../models/property");
+const Location = require("../models/location");
+const Review = require("../models/review");
 
 const apiResponse = require("../helpers/apiResponse");
 const constants = require("../constants");

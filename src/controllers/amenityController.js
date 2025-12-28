@@ -1,4 +1,4 @@
-const Amenity = require("../models/amenityModel");
+const Amenity = require("../models/amenity");
 const apiResponse = require("../helpers/apiResponse");
 const mongoose = require("mongoose");
 

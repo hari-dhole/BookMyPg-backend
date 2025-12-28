@@ -13,7 +13,7 @@ const {
   createPropertyValidator,
   updatePropertyValidator,
   listPropertyValidator,
-} = require("../validators/property.validator");
+} = require("../validators/propertyValidator");
 
 router.get("/properties", listPropertyValidator, validate, getAllProperties);
 

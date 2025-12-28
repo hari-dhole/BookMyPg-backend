@@ -1,5 +1,5 @@
-const Complaint = require("../models/complaintModel");
-const Property = require("../models/propertyModel");
+const Complaint = require("../models/complaint");
+const Property = require("../models/property");
 const apiResponse = require("../helpers/apiResponse");
 const mongoose = require("mongoose");
 const constants = require("../constants");

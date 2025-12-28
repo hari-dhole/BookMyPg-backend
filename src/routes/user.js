@@ -14,10 +14,10 @@ const {
   createUserValidator,
   userIdValidator,
   emailValidator,
-} = require("../validators/user.validator");
+} = require("../validators/userValidator");
 
-router.get("/users", getUsers);
-router.get("/owners/:id/users", getUsers);
+router.get("/users", getAllUsers);
+router.get("/owners/:id/users", getAllUsers);
 
 router.get("/users/:id", userIdValidator, validate, getUserById);
 router.get("/users/email/:email", emailValidator, validate, getUserByEmail);

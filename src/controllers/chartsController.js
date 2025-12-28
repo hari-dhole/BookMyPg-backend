@@ -1,14 +1,14 @@
-const Complaint = require('../models/complaintModel');
-const apiResponse = require('../helpers/apiResponse');
-const setParams = require('../helpers/utility');
+const Complaint = require("../models/complaint");
+const apiResponse = require("../helpers/apiResponse");
+const setParams = require("../helpers/utility");
 
 exports.chartData = [
   async function (req, res) {
     try {
       var filterData = req.query;
 
-      var user_id = req.route.path.includes('owner') ? req.params.id : '';
-      await setFilterQuery(req.query, user_id).then(filterString => {
+      var user_id = req.route.path.includes("owner") ? req.params.id : "";
+      await setFilterQuery(req.query, user_id).then((filterString) => {
         queryParams = setParams.setSortSkipParams(filterData);
 
         query.exec(function (err, complaints) {
@@ -17,7 +17,7 @@ exports.chartData = [
           if (complaints.length > 0) {
             Complaint.find(filterString)
               .countDocuments()
-              .then(count => {
+              .then((count) => {
                 return apiResponse.successResponseWithData(count);
               });
           } else {
@@ -34,8 +34,8 @@ exports.chartData = [
     try {
       var filterData = req.query;
 
-      var user_id = req.route.path.includes('admin') ? req.params.id : '';
-      await setFilterQuery(req.query, user_id).then(filterString => {
+      var user_id = req.route.path.includes("admin") ? req.params.id : "";
+      await setFilterQuery(req.query, user_id).then((filterString) => {
         queryParams = setParams.setSortSkipParams(filterData);
 
         query.exec(function (err, complaints) {
@@ -44,7 +44,7 @@ exports.chartData = [
           if (complaints.length > 0) {
             Complaint.find(filterString)
               .countDocuments()
-              .then(count => {
+              .then((count) => {
                 return apiResponse.successResponseWithData(count);
               });
           } else {
