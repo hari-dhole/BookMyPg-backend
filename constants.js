@@ -17,4 +17,9 @@ module.exports = {
     Propertyrating: "propertyratingTemplate",
     Query: "queryTemplate",
   },
+  ROLE: {
+    Admin: "admin",
+    Owner: "owner",
+    User: "user",
+  },
 };

@@ -7,13 +7,13 @@ const {
   updateAmenity,
 } = require("../controllers/amenityController");
 const auth = require("../middlewares/auth");
-const role = require("../helpers/roles");
+const { ROLE } = require("../../constants");
 
 var router = express.Router();
 
 router.get("/", getAllAmenities);
 router.get("/:id", getAmenityById);
-router.post("/", auth.protect, auth.restrictTo(role.Admin), createAmenity);
+router.post("/", auth.protect, auth.restrictTo(ROLE.Admin), createAmenity);
 router.put("/:id", toggleAmenityStatus);
 router.delete("/:id", updateAmenity);
 
