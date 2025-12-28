@@ -80,11 +80,9 @@ and how to install them.
 
 > SENDER_EMAIL="sender_email"
 
-> TEST_CASE_EMAIL = 'testemail'
+> TEST_CASE_EMAIL = "testemail"
 
-> S3_DEPLOYMENT_LINK_DEV =
-
-    "http://bookmypg-lambda-frontend.s3-website.us-east-2.amazonaws.com"
+> S3_DEPLOYMENT_LINK_DEV = "http://bookmypg-backend.s3-website.us-east-2.amazonaws.com"
 
 > S3_PUBLIC_IMAGES_LINK =
 > "https://bookmypg-public.s3.us-east-2.amazonaws.com/images"
