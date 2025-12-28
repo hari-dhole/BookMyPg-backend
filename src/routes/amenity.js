@@ -1,7 +1,20 @@
 var express = require("express");
-var { getAllAmenitites } = require("../controllers/amenityController");
-const router = express.Router();
+const {
+  createAmenity,
+  getAllAmenities,
+  getAmenityById,
+  toggleAmenityStatus,
+  updateAmenity,
+} = require("../controllers/amenityController");
+const auth = require("../middlewares/auth");
+const role = require("../helpers/roles");
 
-router.get("/", getAllAmenitites);
+var router = express.Router();
+
+router.get("/", getAllAmenities);
+router.get("/:id", getAmenityById);
+router.post("/", auth.protect, auth.restrictTo(role.Admin), createAmenity);
+router.put("/:id", toggleAmenityStatus);
+router.delete("/:id", updateAmenity);
 
 module.exports = router;
