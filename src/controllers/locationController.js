@@ -2,7 +2,7 @@ const Location = require("../models/location");
 const apiResponse = require("../helpers/apiResponse");
 const { getPagination } = require("../utils/pagination");
 
-async function buildLocationFilter(query) {
+function buildLocationFilter(query) {
   const filter = {};
 
   // Active status filter

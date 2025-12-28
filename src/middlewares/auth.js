@@ -13,7 +13,7 @@ exports.protect = function (req, res, next) {
     req.user = decoded;
     next();
   } catch (err) {
-    return apiResponse.unauthorizedResponse(res, "Invalid Token");
+    return apiResponse.unauthorizedResponse(res, `Invalid Token: ${err}`);
   }
 };
 

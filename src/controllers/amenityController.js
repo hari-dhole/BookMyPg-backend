@@ -13,8 +13,8 @@ exports.getAllAmenities = async (req, res) => {
 
     // Filters
     const filter = {};
-    if (search) {
-      filter.name = { $regex: search, $options: "i" };
+    if (req.query.search) {
+      filter.name = { $regex: req.query.search, $options: "i" };
     }
 
     const [amenities, total] = await Promise.all([

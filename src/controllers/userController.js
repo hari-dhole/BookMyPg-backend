@@ -2,8 +2,10 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
+const Property = require("../models/property");
 const apiResponse = require("../helpers/apiResponse");
 const constants = require("../../constants");
+const { getPagination } = require("../utils/pagination");
 
 async function buildUserFilter(query, ownerId = null) {
   const filter = {};
@@ -19,8 +21,12 @@ async function buildUserFilter(query, ownerId = null) {
 
   if (query.from_date || query.to_date) {
     const dateFilter = {};
-    if (query.from_date) {dateFilter.$gte = new Date(query.from_date);}
-    if (query.to_date) {dateFilter.$lte = new Date(query.to_date);}
+    if (query.from_date) {
+      dateFilter.$gte = new Date(query.from_date);
+    }
+    if (query.to_date) {
+      dateFilter.$lte = new Date(query.to_date);
+    }
 
     filter[ownerId ? "onboardedAt" : "createdAt"] = dateFilter;
   }
@@ -108,7 +114,9 @@ exports.getUserByEmail = async (req, res) => {
       constants.POPULATE_PROPERTY_FIELDS,
     );
 
-    if (!user) {return apiResponse.notFoundResponse(res);}
+    if (!user) {
+      return apiResponse.notFoundResponse(res);
+    }
 
     const token = jwt.sign(
       { _id: user._id, email: user.email, role: user.role },
@@ -167,7 +175,9 @@ exports.toggleUserStatus = async (req, res) => {
 
   try {
     const user = await User.findById(req.params.id);
-    if (!user) {return apiResponse.notFoundResponse(res);}
+    if (!user) {
+      return apiResponse.notFoundResponse(res);
+    }
 
     user.isactive = !user.isactive;
     await user.save();

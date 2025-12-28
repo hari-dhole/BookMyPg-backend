@@ -7,6 +7,7 @@ const Review = require("../models/review");
 
 const apiResponse = require("../helpers/apiResponse");
 const constants = require("../../constants");
+const { getPagination } = require("../utils/pagination");
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -44,7 +45,9 @@ async function buildPropertyFilter(query, userId) {
       filter.name = { $regex: query.search, $options: "i" };
     } else {
       const location = await Location.findOne({ name: query.search });
-      if (location) {filter.location = location._id;}
+      if (location) {
+        filter.location = location._id;
+      }
     }
   }
 
@@ -72,7 +75,9 @@ async function getReviewAnalysis(propertyId) {
     constants.POPULATE_USER_FIELDS,
   );
 
-  if (!reviews.length) {return {};}
+  if (!reviews.length) {
+    return {};
+  }
 
   const total = reviews.length;
 
@@ -172,7 +177,9 @@ exports.getPropertyById = async (req, res) => {
       .populate("owner", constants.POPULATE_USER_FIELDS)
       .populate("numreviews");
 
-    if (!property) {return apiResponse.notFoundResponse(res);}
+    if (!property) {
+      return apiResponse.notFoundResponse(res);
+    }
 
     const reviewdata = await getReviewAnalysis(property._id);
 
@@ -218,7 +225,9 @@ exports.deletePropertyById = async (req, res) => {
 
   try {
     const property = await Property.findById(req.params.id);
-    if (!property) {return apiResponse.notFoundResponse(res);}
+    if (!property) {
+      return apiResponse.notFoundResponse(res);
+    }
 
     property.isactive = !property.isactive;
     await property.save();
@@ -242,7 +251,9 @@ exports.updatePropertyById = async (req, res) => {
       new: true,
     });
 
-    if (!property) {return apiResponse.notFoundResponse(res);}
+    if (!property) {
+      return apiResponse.notFoundResponse(res);
+    }
 
     return apiResponse.successResponseWithData(res, property);
   } catch (error) {
